@@ -1,6 +1,7 @@
 /**
- * @author Olav Lindekleiv http://lindekleiv.com/
+ * Adapted from Olav Lindekleiv's https://github.com/oal/react-matrix
  */
+var React = require('react');
 
 class MatrixCell extends React.Component {
   constructor(props) {
@@ -17,6 +18,16 @@ class MatrixCell extends React.Component {
 
     this.defaultStyle = {
       border: '1px solid #eee',
+      display: 'block',
+      margin: '4px 0',
+      padding: '4px',
+      width: '30px',
+      textAlign: 'center'
+    }
+
+    this.toggledStyle = {
+      border: '2px solid #f00',
+      color: 'green',
       display: 'block',
       margin: '4px 0',
       padding: '4px',
@@ -67,7 +78,7 @@ class MatrixCell extends React.Component {
   }
 
   componentDidMount() {
-    if(this.props.active) this.focus()		
+    if(this.props.active) this.focus()    
   }
 
 componentDidUpdate() {
@@ -76,12 +87,13 @@ componentDidUpdate() {
 
 render() {
   var style = this.defaultStyle;
-  if(this.props.active) style = this.activeStyle;
+  if(this.props.toggled) style = this.toggledStyle;
+  if(this.props.active) style = this.toggledStyle;
   return (
     <input ref="input" type="text" style={style} value={this.props.value} readOnly={this.props.readonly}
     onClick={this.onClick.bind(this)}
     onKeyUp={this.onKeyUp.bind(this)}
-    onChange={this.onChange.bind(this)} />	
+    onChange={this.onChange.bind(this)} />  
   );
 }
 }
@@ -94,7 +106,8 @@ class Matrix extends React.Component {
       x: -1,
       y: -1,
       caret: 0,
-      columns: this.props.columns
+      columns: this.props.columns,
+      toggled: Array()
     }
 
     this.style = {
@@ -302,6 +315,25 @@ class Matrix extends React.Component {
   };
   }
 
+  setCellToggled(cellX, cellY){
+    var idx = cellX * this.getHeight() + cellY;
+    if (this.state.toggled.indexOf( idx ) > -1){
+      this.state.toggled.push( idx );
+    }
+  }
+
+  setCellUntoggled(cellX, cellY){
+    var idx = cellX * this.getHeight() + cellY;
+    if (this.state.toggled.indexOf( idx ) > -1){
+      this.state.toggled.splice( idx, 1 );
+    }
+  }
+
+  toggleCells( coords ){
+    var hgt = this.getHeight();
+    this.state.toggled = coords.map( function( v ){ return v.x * hgt + v.y; } );
+  }
+
   render() {
     var activeCell = this.state.x * this.getHeight() + this.state.y;
     var currentCell = 0;
@@ -310,7 +342,8 @@ class Matrix extends React.Component {
       var y = 0;
       var column = columnValues.map(function(value, y) {
         var active = currentCell === activeCell;
-        var cell = <MatrixCell key={x+'-'+y} value={value} matrix={this} x={x} y={y} active={active} readonly={this.props.readonly} />
+        var toggle = this.state.toggled.indexOf( currentCell ) > -1;
+        var cell = <MatrixCell key={x+'-'+y} value={value} matrix={this} x={x} y={y} active={active} toggled={toggle} readonly={this.props.readonly} />
         currentCell++;
         return cell;
       }, this)
@@ -326,8 +359,8 @@ class Matrix extends React.Component {
     }, this)
     return (
       <div style={this.style}>
-        {columns}
-        </div>
+      {columns}
+      </div>
     );
   }
 }
@@ -337,3 +370,5 @@ Matrix.propTypes = {
   resize: React.PropTypes.oneOf(['both', 'vertical', 'horizontal', 'none']),
   readonly: React.PropTypes.bool
 }
+
+module.exports = Matrix;
