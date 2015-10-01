@@ -174,6 +174,9 @@ class Matrix extends React.Component {
     this.setState({columns: columns});
   }
 
+  setColumns( cols ){
+    this.setState({ columns: cols });
+  }
   getRows() {
     var rows = new Array(this.getHeight());
     for (var i = 0; i < this.getHeight(); i++) {
