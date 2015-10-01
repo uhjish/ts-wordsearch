@@ -1,4 +1,4 @@
-package scalajsreact.template.components
+package wordsearch.components
 
 import japgolly.scalajs.react._
 import japgolly.scalajs.react.extra.Reusability
@@ -8,7 +8,7 @@ import japgolly.scalajs.react.vdom.prefix_<^._
 import scala.scalajs.js.{Any, UndefOr}
 import scalacss.Defaults._
 import scalacss.ScalaCssReact._
-import scalajsreact.template.routes.Item
+import wordsearch.routes.Item
 
 object LeftNav {
 

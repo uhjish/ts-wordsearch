@@ -1,8 +1,8 @@
-package scalajsreact.template.models
+package wordsearch.models
 
-import scalajsreact.template.routes.AppRouter
+import wordsearch.routes.AppRouter
 import AppRouter.AppPage
 
-import scalajsreact.template.routes.AppRouter
+import wordsearch.routes.AppRouter
 
 case class Menu(name: String, route: AppPage)

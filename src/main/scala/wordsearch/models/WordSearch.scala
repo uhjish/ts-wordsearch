@@ -1,4 +1,4 @@
-package scalajsreact.template.models
+package wordsearch.models
 
 
 class WordSearch(cells: List[List[Char]]) {

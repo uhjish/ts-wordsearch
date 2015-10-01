@@ -1,6 +1,6 @@
-package scalajsreact.template.components
+package wordsearch.components
 
-import scalajsreact.template.routes.AppRouter
+import wordsearch.routes.AppRouter
 import AppRouter.AppPage
 import japgolly.scalajs.react._
 import japgolly.scalajs.react.extra.Reusability
@@ -10,10 +10,10 @@ import japgolly.scalajs.react.vdom.prefix_<^._
 import scala.scalajs.js
 import scalacss.Defaults._
 import scalacss.ScalaCssReact._
-import scalajsreact.template.routes.AppRouter
+import wordsearch.routes.AppRouter
 import AppRouter.AppPage
-import scalajsreact.template.models.Menu
-import scalajsreact.template.routes.AppRouter.AppPage
+import wordsearch.models.Menu
+import wordsearch.routes.AppRouter.AppPage
 
 
 object TopNav {

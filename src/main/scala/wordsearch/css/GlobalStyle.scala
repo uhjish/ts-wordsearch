@@ -1,4 +1,4 @@
-package scalajsreact.template.css
+package wordsearch.css
 
 import scalacss.Defaults._
 

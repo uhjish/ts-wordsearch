@@ -1,11 +1,11 @@
-package scalajsreact.template.routes
+package wordsearch.routes
 
 import japgolly.scalajs.react.extra.router2.{Resolution, RouterConfigDsl, RouterCtl, _}
 import japgolly.scalajs.react.vdom.prefix_<^._
 
-import scalajsreact.template.components.{TopNav, Footer}
-import scalajsreact.template.models.Menu
-import scalajsreact.template.pages.HomePage
+import wordsearch.components.{TopNav, Footer}
+import wordsearch.models.Menu
+import wordsearch.pages.HomePage
 
 object AppRouter {
 

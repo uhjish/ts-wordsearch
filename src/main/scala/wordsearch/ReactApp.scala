@@ -1,12 +1,12 @@
-package scalajsreact.template
+package wordsearch
 
 import japgolly.scalajs.react._
 import org.scalajs.dom
 
 import scala.scalajs.js.JSApp
 import scala.scalajs.js.annotation.JSExport
-import scalajsreact.template.css.AppCSS
-import scalajsreact.template.routes.AppRouter
+import wordsearch.css.AppCSS
+import wordsearch.routes.AppRouter
 
 
 object ReactApp extends JSApp {

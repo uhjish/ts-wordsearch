@@ -1,11 +1,11 @@
-package scalajsreact.template.routes
+package wordsearch.routes
 
 import japgolly.scalajs.react.ReactElement
 import japgolly.scalajs.react.extra.router2.RouterConfigDsl
 
-import scalajsreact.template.components.Footer
-import scalajsreact.template.components.items.{ItemsInfo, Item1Data, Item2Data}
-import scalajsreact.template.pages.ItemsPage
+import wordsearch.components.Footer
+import wordsearch.components.items.{ItemsInfo, Item1Data, Item2Data}
+import wordsearch.pages.ItemsPage
 
 sealed abstract class Item(val title: String,
 val routerPath: String,

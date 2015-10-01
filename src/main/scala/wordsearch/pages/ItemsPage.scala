@@ -1,4 +1,4 @@
-package scalajsreact.template.pages
+package wordsearch.pages
 
 import japgolly.scalajs.react._
 import japgolly.scalajs.react.extra.router2.RouterCtl
@@ -6,8 +6,8 @@ import japgolly.scalajs.react.vdom.prefix_<^._
 import scala.scalajs.js
 import scalacss.Defaults._
 import scalacss.ScalaCssReact._
-import scalajsreact.template.components.LeftNav
-import scalajsreact.template.routes.Item
+import wordsearch.components.LeftNav
+import wordsearch.routes.Item
 
 object ItemsPage {
 
