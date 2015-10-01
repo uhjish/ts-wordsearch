@@ -68,9 +68,25 @@ module.exports = React.createClass({
   },
   _handleClick: function() {
     this.refs.snackbar.show();
+    //really not worth importing jquery or angular routes for ONE call
+    var xhr = new XMLHttpRequest();
+    xhr.open('POST', 'http://localhost:8080/search');
+    xhr.setRequestHeader('Content-Type', 'application/json');
+    xhr.onload = function() {
+        if (xhr.status === 200) {
+          var searchResults = JSON.parse(xhr.responseText);
+          console.log(searchResults);
+        }
+    };
+    xhr.onerror = function (e) {
+      console.error(xhr.statusText);
+    };
+    xhr.send(JSON.stringify({
+        rows: this.state.rows,
+        word: this.state.word
+    }));
     this.refs.matrix.toggleCells([{'x':0,'y':0},{'x':1,'y':1},{'x':0,'y':2}]);
     this.refs.matrix.addColumn();
     this.refs.matrix.setColumn(this.refs.matrix.getWidth()-1, ['g','h','I']);
-    console.log('Columns:', matrix.getColumns());
   }
 });
