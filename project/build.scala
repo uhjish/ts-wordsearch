@@ -10,7 +10,7 @@ object WordsearchBuild extends Build {
   val Name = "wordsearch"
   val Version = "0.1.0-SNAPSHOT"
   val ScalaVersion = "2.11.6"
-  val ScalatraVersion = "2.4.0-RC2-2"
+  val ScalatraVersion = "2.3.1"
 
   lazy val project = Project (
     "wordsearch",
@@ -26,6 +26,8 @@ object WordsearchBuild extends Build {
         "org.scalatra" %% "scalatra" % ScalatraVersion,
         "org.scalatra" %% "scalatra-scalate" % ScalatraVersion,
         "org.scalatra" %% "scalatra-specs2" % ScalatraVersion % "test",
+        "org.scalatra" %% "scalatra-json" % "2.3.1",
+        "org.json4s"   %% "json4s-jackson" % "3.2.11",
         "ch.qos.logback" % "logback-classic" % "1.1.2" % "runtime",
         "org.eclipse.jetty" % "jetty-webapp" % "9.2.10.v20150310" % "compile;container",
         "javax.servlet" % "javax.servlet-api" % "3.1.0" % "provided"

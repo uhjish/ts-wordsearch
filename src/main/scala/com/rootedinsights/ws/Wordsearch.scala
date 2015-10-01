@@ -64,4 +64,3 @@ object WordSearch {
   }
 }
 
-WordSearch.main(args)
