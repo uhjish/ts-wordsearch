@@ -31,7 +31,6 @@ class WordSearch(cells: List[List[Char]]) {
       else
         adjacent.flatMap { offs =>
           //alternatives for flatmap? seems like it should be a foldLeft but hitting type hell
-
           dfsBacktrackR( updPath, row+offs._1, col+offs._2 )
         }
     }
@@ -59,7 +58,10 @@ object WordSearch {
     val ncol = args(2).toInt
     // grid cells in row major order
     // currently ignores capitalization
-    val cells = args(3).split(",").map(x => if (x.trim.length > 0) x.trim.toLowerCase.head else '\0').grouped(ncol).map(_.toList).toList
+    val cells = args(3).split(",")
+                       .map(x => if (x.trim.length > 0) x.trim.toLowerCase.head else '\0')
+                       .grouped(ncol)
+                       .map(_.toList).toList
     val ws = new WordSearch(cells)
     val hits = ws.dfsSearch(word)
     println(hits)

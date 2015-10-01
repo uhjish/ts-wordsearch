@@ -1,6 +1,6 @@
 enablePlugins(ScalaJSPlugin)
 
-name := "scalajs-react-template"
+name := "scalajs-wordsearch"
 
 version := "1.0"
 
