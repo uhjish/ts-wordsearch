@@ -1,44 +1,67 @@
 #!/bin/sh
 exec scala "$0" "$@"
 !#
-object WordSearch {
-  val adjacent = (-1 to 1).flatMap(x => (-1 to 1).map(y => (x,y))).filter( v => !(v._1 == 0 && v._2 == 0)).toList
-  def dfsBacktrack( cells: List[List[Char]], srch: String) = {
 
-    val nrow = cells.length
-    val ncol = cells(0).length
+class WordSearch(cells: List[List[Char]]) {
+
+  // enumerate the 8 adjacent cells - compass directions
+  val adjacent = (-1 to 1).flatMap(x => (-1 to 1).map(y => (x,y))).filter( v => !(v._1 == 0 && v._2 == 0)).toList
+  val nrow = cells.length
+  val ncol = cells(0).length
+
+
+  def dfsSearch(srch: String) = {
+    // depth first search for a given word in grid
 
     def dfsBacktrackR(path: List[(Int,Int)], row: Int, col: Int):List[(Int,Int)] = {
+      // recursive method for dfs
+
+      // keep track of the path taken here
       val updPath = (row, col) :: path
       val depth = updPath.length
-      var curStr = path.map { x => cells(x._1)(x._2)}
+
+      //var curStr = path.map { x => cells(x._1)(x._2)}
       //println( "row: " + row + " col: " + col + " depth: " + depth + " cur: " + curStr + " " + path)
+
+      // base and recursive cases 
       if (row < 0 || col < 0 || col >= ncol || row >= nrow) Nil
       else if ( depth > srch.length ) Nil
       else if (srch(depth-1) != cells(row)(col) ) Nil 
       else if (srch(depth-1) == cells(row)(col) && depth == srch.length) updPath 
       else
         adjacent.flatMap { offs =>
+          //alternatives for flatmap? seems like it should be a foldLeft but hitting type hell
+
           dfsBacktrackR( updPath, row+offs._1, col+offs._2 )
         }
     }
 
+    //enumerate every point on the grid
     val coords = (0 until ncol).flatMap(c => (0 until nrow).map(r => (r,c)))
+
     coords.foldLeft(List[List[(Int,Int)]]()) { 
-    (acc:List[List[(Int,Int)]], pos) => 
-      val ret = dfsBacktrackR(List[(Int,Int)](), pos._1, pos._2)
-      //println( "pos: " + pos + " ret: " + ret )
-      if (ret.length > 0) ret.reverse.take(srch.length) :: acc else acc 
+      (acc:List[List[(Int,Int)]], pos) =>
+        // call the recursive traversal for each cell, keep non-empty paths
+        val ret = dfsBacktrackR(List[(Int,Int)](), pos._1, pos._2)
+        if (ret.length > 0) ret.reverse.take(srch.length) :: acc else acc 
       }
   }
 
+}
+
+object WordSearch {
+
   def main(args: Array[String]) {
+    //word to search for
     val word = args(0).trim.toLowerCase
+    // number of rows and columns in grid
     val nrow = args(1).toInt
     val ncol = args(2).toInt
+    // grid cells in row major order
+    // currently ignores capitalization
     val cells = args(3).split(",").map(x => if (x.trim.length > 0) x.trim.toLowerCase.head else '\0').grouped(ncol).map(_.toList).toList
-    //println("Hello, world! " + cells)
-    val hits = dfsBacktrack(cells, word)
+    val ws = new WordSearch(cells)
+    val hits = ws.dfsSearch(word)
     println(hits)
   }
 }
