@@ -34,7 +34,8 @@ module.exports = React.createClass({
       <Matrix
           ref='matrix' 
           columns={this.transpose(this.state.rows)}
-          resize='horizontal'/>
+          resize='both'
+          readonly={true}/>
       <br/>
       <br/>
       <TextField
