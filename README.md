@@ -1,4 +1,12 @@
-scalajs-react-template
-======================
+# wordsearch #
 
-Basic skeleton app for scalajs-react and scalacss
+## Build & Run ##
+
+```sh
+$ cd wordsearch
+$ ./sbt
+> container:start
+> browse
+```
+
+If `browse` doesn't launch your browser, manually open [http://localhost:8080/](http://localhost:8080/) in your browser.
