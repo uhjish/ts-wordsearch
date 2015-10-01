@@ -336,7 +336,7 @@ class Matrix extends React.Component {
     var hgt = this.getHeight();
     this.state.toggled = coords.map( function( v ){ return v.x * hgt + v.y; } );
   }
-
+  
   render() {
     var activeCell = this.state.x * this.getHeight() + this.state.y;
     var currentCell = 0;
@@ -366,12 +366,14 @@ class Matrix extends React.Component {
       </div>
     );
   }
+
 }
 
 Matrix.propTypes = {
   columns: React.PropTypes.array,
   resize: React.PropTypes.oneOf(['both', 'vertical', 'horizontal', 'none']),
-  readonly: React.PropTypes.bool
+  readonly: React.PropTypes.bool,
+  onCellsUpdated: React.PropTypes.function
 }
 
 module.exports = Matrix;
