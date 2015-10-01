@@ -5,11 +5,13 @@ import scalate.ScalateSupport
 import org.json4s.{DefaultFormats, Formats}
 import org.scalatra.json._
 
+
+case class Flower(slug: String, name: String)
+
 class WordsearchServlet extends WordsearchStack with JacksonJsonSupport {
 
   protected implicit val jsonFormats: Formats = DefaultFormats
 
-  case class Flower(slug: String, name: String)
 
   object FlowerData {
   
