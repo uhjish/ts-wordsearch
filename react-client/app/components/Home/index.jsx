@@ -10,16 +10,18 @@ module.exports = React.createClass({
   render: function() {
     var matrixCols = [['a','b','c'],['d','e','f']]; 
     return <div className='homePage pageContent'>
-      <h1>Homepage</h1>
-      <p>This is a sample project that uses React, Webpack and Material UI. It supports lightning-fast development ala live reload.</p>
+      <h1>Wordsearch Grid</h1>
+      <p>Scalatra, React, Webpack and Material UI.</p>
       <Matrix
           ref='matrix' 
           columns={matrixCols}
           resize='horizontal' />
+      <br/>
       <RaisedButton label='Update' primary={true} onTouchTap={this._handleClick} />
+      <br/>
       <Snackbar
         ref='snackbar'
-        message={'You did it!'} />
+        message={'Updating...'} />
     </div>;
   },
 

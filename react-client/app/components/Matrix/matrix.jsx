@@ -88,7 +88,7 @@ componentDidUpdate() {
 render() {
   var style = this.defaultStyle;
   if(this.props.toggled) style = this.toggledStyle;
-  if(this.props.active) style = this.toggledStyle;
+  if(this.props.active) style = this.activeStyle;
   return (
     <input ref="input" type="text" style={style} value={this.props.value} readOnly={this.props.readonly}
     onClick={this.onClick.bind(this)}
