@@ -5,7 +5,7 @@ exec scala "$0" "$@"
 class WordSearch(cells: List[List[Char]]) {
 
   // enumerate the 8 adjacent cells - compass directions
-  val adjacent = (-1 to 1).flatMap(x => (-1 to 1).map(y => (x,y))).filter( v => !(v._1 == 0 && v._2 == 0)).toList
+  val adjacent = List((-1,-1), (-1,0), (-1,1), (0,-1), (0,1), (1,-1), (1,0), (1,1)) 
   val nrow = cells.length
   val ncol = cells(0).length
 
