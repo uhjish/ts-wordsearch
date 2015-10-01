@@ -6,43 +6,25 @@ import org.json4s.{DefaultFormats, Formats}
 import org.scalatra.json._
 
 
-case class Flower(slug: String, name: String)
+case class WordsearchRequest(rows: List[List[String]], word: String)
 
 class WordsearchServlet extends WordsearchStack with JacksonJsonSupport {
 
   protected implicit val jsonFormats: Formats = DefaultFormats
 
-
-  object FlowerData {
-  
-    /**
-     *    * Some fake flowers data so we can simulate retrievals.
-     *       */
-    var all = List(
-        Flower("yellow-tulip", "Yellow Tulip"),
-        Flower("red-rose", "Red Rose"),
-        Flower("black-rose", "Black Rose"))
-  }
-
   before() {
     contentType = formats("json")
   }
 
-  get("/flowers"){
-    FlowerData.all
-  }
-
-  post("/create") {
-    parsedBody.extract[Flower]
+  post("/search") {
+    val wsr = parsedBody.extract[WordsearchRequest]
+    val chargrid = wsr.rows.map( r => r.map(x => if (x.trim.length > 0) x.trim.toLowerCase.head else '\0') ).toList
+    val ws = new WordSearch(chargrid)
+    ws.dfsSearch(wsr.word)
   }
 
   get("/") {
-    <html>
-      <body>
-        <h1>Hello, world!</h1>
-        Say <a href="hello-scalate">hello to Scalate</a>.
-      </body>
-    </html>
+    "post a json request with fields rows (array of arrays) and word (string to search for) to the search endpoint"
   }
 
 }

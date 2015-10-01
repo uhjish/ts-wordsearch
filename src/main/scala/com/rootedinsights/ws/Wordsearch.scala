@@ -1,3 +1,7 @@
+package com.rootedinsights.ws
+
+case class Point( row:Int , col:Int)
+
 class WordSearch(cells: List[List[Char]]) {
 
   // enumerate the 8 adjacent cells - compass directions
@@ -6,14 +10,14 @@ class WordSearch(cells: List[List[Char]]) {
   val ncol = cells(0).length
 
 
-  def dfsSearch(srch: String) = {
+  def dfsSearch(srch: String):List[List[Point]] = {
     // depth first search for a given word in grid
 
-    def dfsBacktrackR(path: List[(Int,Int)], row: Int, col: Int):List[(Int,Int)] = {
+    def dfsBacktrackR(path: List[Point], row: Int, col: Int):List[Point] = {
       // recursive method for dfs
 
       // keep track of the path taken here
-      val updPath = (row, col) :: path
+      val updPath = (new Point(row, col)) :: path
       val depth = updPath.length
 
       //var curStr = path.map { x => cells(x._1)(x._2)}
@@ -34,10 +38,10 @@ class WordSearch(cells: List[List[Char]]) {
     //enumerate every point on the grid
     val coords = (0 until ncol).flatMap(c => (0 until nrow).map(r => (r,c)))
 
-    coords.foldLeft(List[List[(Int,Int)]]()) { 
-      (acc:List[List[(Int,Int)]], pos) =>
+    coords.foldLeft(List[List[Point]]()) { 
+      (acc:List[List[Point]], pos) =>
         // call the recursive traversal for each cell, keep non-empty paths
-        val ret = dfsBacktrackR(List[(Int,Int)](), pos._1, pos._2)
+        val ret = dfsBacktrackR(List[Point](), pos._1, pos._2)
         if (ret.length > 0) ret.reverse.take(srch.length) :: acc else acc 
       }
   }
