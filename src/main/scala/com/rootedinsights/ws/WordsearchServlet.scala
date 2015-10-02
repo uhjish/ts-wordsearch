@@ -31,7 +31,10 @@ class WordsearchServlet extends WordsearchStack with JacksonJsonSupport with Cor
   }
 
   get("/") {
-    "post a json request with fields rows (array of arrays) and word (string to search for) to the search endpoint\nexample: {\"rows\": [[\"a\",\"b\",\"c\"],[\"d\",\"e\",\"f\"],[\"g\",\"h\",\"i\"]], \"word\": \"beg\"}"
+    Map( "usage" -> "post a json request with fields rows (array of arrays) and word (string to search for) to the search endpoint",
+      "relevantEndpoint" -> "/search POST",
+      "exampleInput" -> Map("rows" -> List(List("a","b","c"),List("d","e","f"),List("g","h","i")), "word" -> "beg"),
+      "exampleOutput" -> List(List(Point(0,1),Point(1,1),Point(2,0))) )
   }
 
 }
