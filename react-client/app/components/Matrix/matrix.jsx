@@ -323,6 +323,7 @@ class Matrix extends React.Component {
     if (this.state.toggled.indexOf( idx ) > -1){
       this.state.toggled.push( idx );
     }
+    this.setState({toggled: this.state.toggled});
   }
 
   setCellUntoggled(cellX, cellY){
@@ -330,11 +331,13 @@ class Matrix extends React.Component {
     if (this.state.toggled.indexOf( idx ) > -1){
       this.state.toggled.splice( idx, 1 );
     }
+    this.setState({toggled: this.state.toggled});
   }
 
   toggleCells( coords ){
     var hgt = this.getHeight();
-    this.state.toggled = coords.map( function( v ){ return v.x * hgt + v.y; } );
+    var toggled = coords.map( function( v ){ return v.col * hgt + v.row; } );
+    this.setState({toggled: toggled});
   }
   
   render() {

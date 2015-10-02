@@ -14,7 +14,8 @@ module.exports = React.createClass({
   getInitialState: function() {
     return {
       word:"eac",
-      rows:[["a","d"],["b","e"],["e","f"]]
+      rows:[["a","d"],["b","e"],["e","f"]],
+      paths: []
     };
   }, 
   transpose: function( rs ){
@@ -58,25 +59,39 @@ module.exports = React.createClass({
         message={'Updating...'} />
     </div>;
   },
+
   handleGridTextChange: function(event) {
     var newgt = this.refs.gridtext.getValue();
-    console.log(newgt);
     var rows = newgt.split(";").map(function(x){ return x.split(",")});
     this.setState( {rows: rows} ); 
     this.refs.matrix.setColumns( this.transpose(rows) );
-    console.log(this.state);
   },
+
+  handlePathsFound: function(wordPaths){
+    this.setState({paths: wordPaths});
+    var matrix = this.refs.matrix;
+    wordPaths.forEach( function(path){
+      console.log(path);
+      matrix.toggleCells(path);
+    });
+    console.log(wordPaths);
+  
+  },
+
   _handleClick: function() {
+    
+    //scoping for async callbacks
     var snack = this.refs.snackbar;
+    var pathHandler = this.handlePathsFound;
     snack.show();
-    //really not worth importing jquery or angular routes for ONE call
+    
     var xhr = new XMLHttpRequest();
     xhr.open('POST', 'http://localhost:8080/search');
     xhr.setRequestHeader('Content-Type', 'application/json');
     xhr.onload = function() {
         if (xhr.status === 200) {
-          var searchResults = JSON.parse(xhr.responseText);
-          console.log(searchResults);
+          var wordPaths = JSON.parse(xhr.responseText);
+          pathHandler(wordPaths);
           snack.dismiss();
         }
     };
@@ -87,8 +102,5 @@ module.exports = React.createClass({
         rows: this.state.rows,
         word: this.state.word
     }));
-    this.refs.matrix.toggleCells([{'x':0,'y':0},{'x':1,'y':1},{'x':0,'y':2}]);
-    this.refs.matrix.addColumn();
-    this.refs.matrix.setColumn(this.refs.matrix.getWidth()-1, ['g','h','I']);
   }
 });
