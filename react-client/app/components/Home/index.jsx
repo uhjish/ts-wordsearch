@@ -67,7 +67,8 @@ module.exports = React.createClass({
     console.log(this.state);
   },
   _handleClick: function() {
-    this.refs.snackbar.show();
+    var snack = this.refs.snackbar;
+    snack.show();
     //really not worth importing jquery or angular routes for ONE call
     var xhr = new XMLHttpRequest();
     xhr.open('POST', 'http://localhost:8080/search');
@@ -76,6 +77,7 @@ module.exports = React.createClass({
         if (xhr.status === 200) {
           var searchResults = JSON.parse(xhr.responseText);
           console.log(searchResults);
+          snack.dismiss();
         }
     };
     xhr.onerror = function (e) {

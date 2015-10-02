@@ -4,13 +4,20 @@ import org.scalatra._
 import scalate.ScalateSupport
 import org.json4s.{DefaultFormats, Formats}
 import org.scalatra.json._
+import org.scalatra.CorsSupport
+
+
 
 
 case class WordsearchRequest(rows: List[List[String]], word: String)
 
-class WordsearchServlet extends WordsearchStack with JacksonJsonSupport {
+class WordsearchServlet extends WordsearchStack with JacksonJsonSupport with CorsSupport {
 
   protected implicit val jsonFormats: Formats = DefaultFormats
+  
+  options("/*"){
+    response.setHeader("Access-Control-Allow-Headers", request.getHeader("Access-Control-Request-Headers"));
+  }
 
   before() {
     contentType = formats("json")
