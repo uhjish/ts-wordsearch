@@ -86,7 +86,7 @@ module.exports = React.createClass({
           serves as a controller for the wordsearch and visualization state.
         </CardText>
         <CardActions expandable={true}>
-          <RaisedButton linkButton={true} href="https://github.com/uhjish/ts-wordsearch/commit/178fef6cd38fc1c83e6638cde2ea562a3f2ec9f2" secondary={true} label="Source">
+          <RaisedButton linkButton={true} href="https://github.com/uhjish/ts-wordsearch/blob/c20d29b89b33c8fb13c71a05a26511f5e024c1dc/react-client/app/components/Home/index.jsx" secondary={true} label="Source">
           </RaisedButton>
         </CardActions>
       </Card>
