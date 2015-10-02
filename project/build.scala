@@ -10,7 +10,7 @@ object WordsearchBuild extends Build {
   val Name = "wordsearch"
   val Version = "0.1.0-SNAPSHOT"
   val ScalaVersion = "2.11.6"
-  val ScalatraVersion = "2.4.0-RC2-2"
+  val ScalatraVersion = "2.3.1"
 
   lazy val project = Project (
     "wordsearch",
