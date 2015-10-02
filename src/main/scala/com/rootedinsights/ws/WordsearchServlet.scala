@@ -31,7 +31,7 @@ class WordsearchServlet extends WordsearchStack with JacksonJsonSupport with Cor
   }
 
   get("/") {
-    "post a json request with fields rows (array of arrays) and word (string to search for) to the search endpoint"
+    "post a json request with fields rows (array of arrays) and word (string to search for) to the search endpoint\nexample: {\"rows\": [[\"a\",\"b\",\"c\"],[\"d\",\"e\",\"f\"],[\"g\",\"h\",\"i\"]], \"word\": \"beg\"}"
   }
 
 }
