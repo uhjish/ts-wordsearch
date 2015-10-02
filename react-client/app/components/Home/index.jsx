@@ -21,7 +21,8 @@ module.exports = React.createClass({
             ['l','l','n','r','o'],
             ['e','c','a','u','w'],
             ['y','d','x','s','z']],
-      paths: Array()
+      paths: Array(),
+      sel_path: null
     };
   }, 
   transpose: function( rs ){
@@ -48,7 +49,7 @@ module.exports = React.createClass({
         columns={this.transpose(this.state.rows)}
         resize='both'
         readonly={true}/>
-      <RadioButtonGroup name="shipSpeed" defaultSelected="path_0">
+      <RadioButtonGroup name="foundPaths" ref="foundPaths" defaultSelected="path_0" onChange={this.handlePathSelected}>
         {this.state.paths.map(function(path, idx){
           return radioButtonForPath(path,idx);
         })}
@@ -57,16 +58,16 @@ module.exports = React.createClass({
       <br/>
       <TextField
         ref='gridtext'
-          hintText="enter grid rows (ex: a,b,c;d,e,f;g,h,I)"
-          floatingLabelText="Grid Rows ex: a,b,c; d,e,f" 
-          value={this.toRowsString(this.state.rows)}
-          onChange={this.handleGridTextChange} />
+        hintText="enter grid rows (ex: a,b,c;d,e,f;g,h,I)"
+        floatingLabelText="Grid Rows ex: a,b,c; d,e,f" 
+        value={this.toRowsString(this.state.rows)}
+        onChange={this.handleGridTextChange} />
       <br/>
       <TextField
-          ref='searchword'
-          hintText="word to search for in grid"
-          floatingLabelText="Search Word" 
-          defaultValue={this.state.word}/>
+        ref='searchword'
+        hintText="word to search for in grid"
+        floatingLabelText="Search Word" 
+        defaultValue={this.state.word}/>
       <br/>
       <br/>
       <RaisedButton label='Search' primary={true} onTouchTap={this._handleClick} />
@@ -83,14 +84,23 @@ module.exports = React.createClass({
     this.refs.matrix.setColumns( this.transpose(rows) );
   },
 
-  handlePathsFound: function(wordPaths){
-    var thisHndl = this;
-    var matrix = this.refs.matrix;
-    wordPaths.forEach( function(path){
-        matrix.toggleCells(path);
-    });
-    thisHndl.setState({paths: wordPaths});
-  
+  handlePathsFound: function( wordPaths ) {
+    this.setState({paths: wordPaths});
+    if (wordPaths.length > 0){
+      this.refs.foundPaths.setSelectedValue("path_0");
+      this.handlePathSelected({}, "path_0");
+    }
+ 
+  }, 
+  handlePathSelected: function(event, selected) {
+    console.log("selecting " + selected);
+    console.log(this.state);
+    if ( (! selected) || this.state.paths.length < 1 ){
+      return;
+    }
+    var path_idx = parseInt( selected.split("_")[1] );
+    this.refs.matrix.toggleCells( this.state.paths[path_idx] );
+    this.setState({"sel_path": path_idx});
   },
 
   _handleClick: function() {
@@ -98,8 +108,9 @@ module.exports = React.createClass({
     var snack = this.refs.snackbar;
     var pathHandler = this.handlePathsFound;
     this.refs.matrix.toggleCells([]);
-    this.setState({word: this.refs.searchword, 
-                   paths: Array()});
+    this.setState({word: this.refs.searchword.getValue(), 
+                   paths: Array(),
+                   sel_path: null});
     snack.show();
     
     var xhr = new XMLHttpRequest();
@@ -108,8 +119,8 @@ module.exports = React.createClass({
     xhr.onload = function() {
         if (xhr.status === 200) {
           var wordPaths = JSON.parse(xhr.responseText);
-          pathHandler(wordPaths);
           snack.dismiss();
+          pathHandler(wordPaths);
         }
     };
     xhr.onerror = function (e) {
