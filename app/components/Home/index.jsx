@@ -42,8 +42,9 @@ module.exports = React.createClass({
 
     return <div className='homePage pageContent'>
       <h1>Wordsearch Grid</h1>
-      <p>Scalatra, React, Webpack and Material UI.</p>
-      <p>Recursive DFS search service in Scala.</p>
+      <p>Scalatra, React, Webpack and Material UI.
+      Recursive DFS search service in Scala.
+      Try the About page for more details (menu in header).</p>
       <Matrix
         ref='matrix' 
         columns={this.transpose(this.state.rows)}
@@ -59,14 +60,14 @@ module.exports = React.createClass({
       <TextField
         ref='gridtext'
         hintText="enter grid rows (ex: a,b,c;d,e,f;g,h,I)"
-        floatingLabelText="Grid Rows ex: a,b,c; d,e,f" 
+        floatingLabelText="Grid Rows (hint: semicolons)" 
         value={this.toRowsString(this.state.rows)}
         onChange={this.handleGridTextChange} />
       <br/>
       <TextField
         ref='searchword'
         hintText="word to search for in grid"
-        floatingLabelText="Search Word" 
+        floatingLabelText="Search (try: oracle, apple, linux)" 
         defaultValue={this.state.word}/>
       <br/>
       <br/>
@@ -114,7 +115,7 @@ module.exports = React.createClass({
     snack.show();
     
     var xhr = new XMLHttpRequest();
-    xhr.open('POST', 'http://localhost:8080/search');
+    xhr.open('POST', 'http://ts-wordsearch-webservice.herokuapp.com/search');
     xhr.setRequestHeader('Content-Type', 'application/json');
     xhr.onload = function() {
         if (xhr.status === 200) {
@@ -136,3 +137,4 @@ module.exports = React.createClass({
     this._handleClick();
   }
 });
+

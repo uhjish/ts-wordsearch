@@ -18,7 +18,7 @@ module.exports = React.createClass({
     return <Paper className='topNav' rounded={false}>
       <mui.AppBar
         iconElementLeft={menuButton}
-        title='Ajish Wordsearch App'
+        title='Wordsearch App'
         zDepth={0} />
     </Paper>;
   }
