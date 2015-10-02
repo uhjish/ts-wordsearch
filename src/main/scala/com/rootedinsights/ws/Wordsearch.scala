@@ -29,10 +29,9 @@ class WordSearch(cells: List[List[Char]]) {
       else if (srch(depth-1) != cells(row)(col) ) Nil 
       else if (srch(depth-1) == cells(row)(col) && depth == srch.length) updPath 
       else
-        adjacent.flatMap { offs =>
-          //alternatives for flatmap? seems like it should be a foldLeft but hitting type hell
-          dfsBacktrackR( updPath, row+offs._1, col+offs._2 )
-        }
+        adjacent.filter( offs => !updPath.contains(Point(row+offs._1, col+offs._2)) ).flatMap { offs =>
+            dfsBacktrackR( updPath, row+offs._1, col+offs._2 )
+          }
     }
 
     //enumerate every point on the grid
