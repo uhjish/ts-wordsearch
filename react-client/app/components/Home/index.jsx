@@ -3,6 +3,8 @@
 var React        = require('react'),
     mui          = require('material-ui'),
     RaisedButton = mui.RaisedButton,
+    RadioButton  = mui.RadioButton,
+    RadioButtonGroup  = mui.RadioButtonGroup,
     Snackbar     = mui.Snackbar,
     TextField    = mui.TextField,
     Matrix       = require('../Matrix/matrix.jsx');
@@ -13,9 +15,13 @@ module.exports = React.createClass({
 
   getInitialState: function() {
     return {
-      word:"eac",
-      rows:[["a","d"],["b","e"],["e","f"]],
-      paths: []
+      word:"dell",
+      rows:[['w','p','a','o','u'],
+            ['p','i','e','d','q'],
+            ['l','l','n','r','o'],
+            ['e','c','a','u','w'],
+            ['y','d','x','s','z']],
+      paths: Array()
     };
   }, 
   transpose: function( rs ){
@@ -24,25 +30,35 @@ module.exports = React.createClass({
   toRowsString: function( rs ){
       return rs.map( function( r ){ return r.join(","); } ).join(";");
   },
-  
   render: function() {
-    console.log(this.state);
-    //TODO: inefficient, move elsewhere
+    var radioButtonForPath = function(path, idx) {
+      var path_id = "path_"+idx;
+      return <RadioButton
+        value={path_id}
+        label={path_id + " st: (" + path[0].col + "," + path[0].row + ")"}
+        style={{marginBottom:4}} />
+    };
 
     return <div className='homePage pageContent'>
       <h1>Wordsearch Grid</h1>
       <p>Scalatra, React, Webpack and Material UI.</p>
+      <p>Recursive DFS search service in Scala.</p>
       <Matrix
-          ref='matrix' 
-          columns={this.transpose(this.state.rows)}
-          resize='both'
-          readonly={true}/>
+        ref='matrix' 
+        columns={this.transpose(this.state.rows)}
+        resize='both'
+        readonly={true}/>
+      <RadioButtonGroup name="shipSpeed" defaultSelected="path_0">
+        {this.state.paths.map(function(path, idx){
+          return radioButtonForPath(path,idx);
+        })}
+      </RadioButtonGroup>
       <br/>
       <br/>
       <TextField
-          ref='gridtext'
-          hintText="enter grid rows, cells separated by commas, rows separate by semicolons (ex: a,b,c;d,e,f;g,h,I)"
-          floatingLabelText="Input Grid Rows" 
+        ref='gridtext'
+          hintText="enter grid rows (ex: a,b,c;d,e,f;g,h,I)"
+          floatingLabelText="Grid Rows ex: a,b,c; d,e,f" 
           value={this.toRowsString(this.state.rows)}
           onChange={this.handleGridTextChange} />
       <br/>
@@ -50,7 +66,7 @@ module.exports = React.createClass({
           ref='searchword'
           hintText="word to search for in grid"
           floatingLabelText="Search Word" 
-          valueLink={this.linkState('word')}/>
+          defaultValue={this.state.word}/>
       <br/>
       <br/>
       <RaisedButton label='Search' primary={true} onTouchTap={this._handleClick} />
@@ -68,21 +84,22 @@ module.exports = React.createClass({
   },
 
   handlePathsFound: function(wordPaths){
-    this.setState({paths: wordPaths});
+    var thisHndl = this;
     var matrix = this.refs.matrix;
     wordPaths.forEach( function(path){
-      console.log(path);
-      matrix.toggleCells(path);
+        matrix.toggleCells(path);
     });
-    console.log(wordPaths);
+    thisHndl.setState({paths: wordPaths});
   
   },
 
   _handleClick: function() {
-    
     //scoping for async callbacks
     var snack = this.refs.snackbar;
     var pathHandler = this.handlePathsFound;
+    this.refs.matrix.toggleCells([]);
+    this.setState({word: this.refs.searchword, 
+                   paths: Array()});
     snack.show();
     
     var xhr = new XMLHttpRequest();
@@ -100,7 +117,11 @@ module.exports = React.createClass({
     };
     xhr.send(JSON.stringify({
         rows: this.state.rows,
-        word: this.state.word
+        word: this.refs.searchword.getValue()
     }));
+  },
+
+  componentDidMount: function() {
+    this._handleClick();
   }
 });
