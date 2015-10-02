@@ -48,23 +48,3 @@ class WordSearch(cells: List[List[Char]]) {
 
 }
 
-object WordSearch {
-
-  def main(args: Array[String]) {
-    //word to search for
-    val word = args(0).trim.toLowerCase
-    // number of rows and columns in grid
-    val nrow = args(1).toInt
-    val ncol = args(2).toInt
-    // grid cells in row major order
-    // currently ignores capitalization
-    val cells = args(3).split(",")
-                       .map(x => if (x.trim.length > 0) x.trim.toLowerCase.head else '\0')
-                       .grouped(ncol)
-                       .map(_.toList).toList
-    val ws = new WordSearch(cells)
-    val hits = ws.dfsSearch(word)
-    println(hits)
-  }
-}
-
